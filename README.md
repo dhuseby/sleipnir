@@ -2,8 +2,6 @@
 
 **sleipnir:** WebTransport polyfill
 
-This project was bootstrapped by [create-neon](https://www.npmjs.com/package/create-neon).
-
 ## Installing sleipnir
 
 Installing sleipnir requires a [supported version of Node and Rust](https://github.com/neon-bindings/neon#platform-support).
@@ -37,7 +35,7 @@ $ node
 > (async () => {
 ... const wt = new WebTransport();
 ... await wt.close();
-...})();
+... })();
 ```
 
 ## Available Scripts

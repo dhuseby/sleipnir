@@ -1,5 +1,5 @@
 use neon::{prelude::*, types::Deferred};
-use std::{sync::mpsc, thread};
+use std::{sync::mpsc, thread, time};
 
 struct Wt {
     tx: mpsc::Sender<WtMessage>,
@@ -59,6 +59,22 @@ impl Wt {
         Ok(cx.boxed(wt))
     }
 
+    fn js_get_ready(mut cx: FunctionContext) -> JsResult<JsPromise> {
+        let wt = cx.this().downcast_or_throw::<JsBox<Wt>, _>(&mut cx)?;
+        let (deferred, promise) = cx.promise();
+
+        wt.send(deferred, move |channel, deferred| {
+            // let's stall for 5 seconds
+            thread::sleep(time::Duration::from_secs(5));
+
+            // JS thread execute
+            deferred.settle_with(channel, move |mut cx| Ok(cx.null()));
+        })
+        .into_rejection(&mut cx)?;
+
+        Ok(promise)
+    }
+
     fn js_get_stats(mut cx: FunctionContext) -> JsResult<JsPromise> {
         let wt = cx.this().downcast_or_throw::<JsBox<Wt>, _>(&mut cx)?;
         let (deferred, promise) = cx.promise();
@@ -106,6 +122,7 @@ impl SendResultExt for Result<(), mpsc::SendError<WtMessage>> {
 #[neon::main]
 fn main(mut cx: ModuleContext) -> NeonResult<()> {
     cx.export_function("wtNew", Wt::js_new)?;
+    cx.export_function("wtGetReady", Wt::js_get_ready)?;
     cx.export_function("wtGetStats", Wt::js_get_stats)?;
     cx.export_function("wtClose", Wt::js_close)?;
     Ok(())
