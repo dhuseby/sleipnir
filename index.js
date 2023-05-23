@@ -11,12 +11,12 @@ class WebTransport {
 
     getStats() {
         console.log(this.wt);
-        return wtGetStats(this.wt);
+        return wtGetStats.call(this.wt);
     }
 
     close() {
         console.log(this.wt);
-        return wtClose(this.wt);
+        return wtClose.call(this.wt);
     }
 }
 
