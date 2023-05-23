@@ -1,4 +1,4 @@
-# sleipnir
+# Sleipnir
 
 **sleipnir:** WebTransport polyfill
 
@@ -33,8 +33,11 @@ After building sleipnir, you can explore its exports at the Node REPL:
 ```sh
 $ npm install
 $ node
-> require('.').hello()
-"hello node"
+> const WebTransport = require('.');
+> (async () => {
+... const wt = new WebTransport();
+... await wt.close();
+...})();
 ```
 
 ## Available Scripts
