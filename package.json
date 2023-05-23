@@ -1,0 +1,30 @@
+{
+  "name": "sleipnir",
+  "version": "0.1.0",
+  "description": "WebTransport polyfill",
+  "main": "index.js",
+  "scripts": {
+    "build": "cargo-cp-artifact -nc index.node -- cargo build --message-format=json-render-diagnostics",
+    "build-debug": "npm run build --",
+    "build-release": "npm run build -- --release",
+    "install": "npm run build-release",
+    "test": "cargo test"
+  },
+  "author": "Dave Huseby <dwh@linuxprogrammer.org>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "cargo-cp-artifact": "^0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhuseby/sleipnir.git"
+  },
+  "keywords": [
+    "WebTransport",
+    "nodejs"
+  ],
+  "bugs": {
+    "url": "https://github.com/dhuseby/sleipnir/issues"
+  },
+  "homepage": "https://github.com/dhuseby/sleipnir#readme"
+}
